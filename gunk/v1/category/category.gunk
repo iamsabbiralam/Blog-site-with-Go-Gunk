@@ -3,7 +3,7 @@ package category
 type Category struct {
 	ID          int64  `pb:"1"`
 	CategoryName       string `pb:"2"`
-	IsComplete  bool   `pb:"3"`
+	IsCompleted  bool   `pb:"3"`
 }
 
 type CreateCategoryRequest struct {
