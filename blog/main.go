@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net"
 	"strconv"
@@ -38,11 +39,12 @@ func main() {
 	
 
 	tcb.RegisterCategoryServiceServer(grpcServer, s)
-	lis, err := net.Listen("tcp", ":3000")
+	host, port := config.GetString("server.host"), config.GetString("server.port")
+	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%s", host, port))
 	if err != nil {
 		log.Fatalf("failed to listen: %s", err)
 	}
-
+	log.Printf("Server is starting on: http://%s:%s", host, port)
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
 	}

@@ -25,3 +25,11 @@ func NewStorage(dbstring string) (*Storage, error) {
 func(s *Storage) Migrate(dir string) error {
 	return goose.Run("up", s.db.DB, dir)
 }
+
+func NewTestStorage(dbstring string, migrationDir string) (*Storage, func()) {
+	db, teardown := MustNewDevelopmentDB(dbstring, migrationDir)
+	db.SetMaxOpenConns(5)
+	db.SetConnMaxLifetime(time.Hour)
+
+	return &Storage{db: db}, teardown
+}
