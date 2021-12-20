@@ -17,7 +17,7 @@ func(s *Svc) Create(ctx context.Context, req *tpb.CreatePostRequest) (*tpb.Creat
 		Description: req.Post.Description,
 		Image:       req.Post.Image,
 	}
-	id, err := s.postCore.Createpost(context.Background(), post)
+	id, err := s.postCore.CreatePost(context.Background(), post)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to create post")
 	}

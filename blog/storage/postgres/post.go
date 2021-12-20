@@ -7,7 +7,7 @@ import (
 
 const insertPost = `INSERT INTO posts (cat_id, title, description, image) VALUES (:cat_id, :title, :description, :image) RETURNING id;`
 
-func (s *Storage) Createpost(ctx context.Context, t storage.Post) (int64, error) {
+func (s *Storage) CreatePost(ctx context.Context, t storage.Post) (int64, error) {
 	stmt, err := s.db.PrepareNamed(insertPost)
 	if err != nil {
 		return 0, err
@@ -17,4 +17,26 @@ func (s *Storage) Createpost(ctx context.Context, t storage.Post) (int64, error)
 		return 0, err
 	}
 	return id, nil
+}
+
+func(s *Storage) GetPost(ctx context.Context, id int64) (storage.Post, error) {
+	var p storage.Post
+	if err := s.db.Get(&p, "SELECT * FROM posts WHERE id = $1", id); err != nil {
+		return p, err
+	}
+	return p, nil
+}
+
+const updatePost = `UPDATE posts SET cat_id = :cat_id, title = :title, description = :description, image = :image WHERE id = :id RETURNING *;`
+
+func(s *Storage) UpdatePost(ctx context.Context, t storage.Post) error {
+	stmt, err := s.db.PrepareNamed(updatePost)
+	if err != nil {
+		return err
+	}
+	var p storage.Category
+	if err := stmt.Get(&p, t); err != nil {
+		return err
+	}
+	return nil
 }

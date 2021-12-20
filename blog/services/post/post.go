@@ -7,7 +7,9 @@ import (
 )
 
 type postCoreStore interface {
-	Createpost(context.Context, storage.Post) (int64, error)
+	CreatePost(context.Context, storage.Post) (int64, error)
+	GetPost(context.Context, int64) (storage.Post, error)
+	UpdatePost(context.Context, storage.Post) error
 }
 
 type Svc struct {
@@ -15,6 +17,8 @@ type Svc struct {
 	postCore	postCoreStore
 }
 
-func NewPostServer() * Svc {
-	return &Svc{}
+func NewPostServer(p postCoreStore) * Svc {
+	return &Svc{
+		postCore: p,
+	}
 }
