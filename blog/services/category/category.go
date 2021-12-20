@@ -12,6 +12,7 @@ type categoryCoreStore interface {
 	Show(context.Context) ([]storage.Category, error)
 	Get(context.Context, int64) (storage.Category, error)
 	Update(context.Context, storage.Category) error
+	Delete(context.Context, int64) error
 }
 
 type Svc struct {

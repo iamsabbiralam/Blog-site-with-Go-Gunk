@@ -31,3 +31,7 @@ func (cs CoreSvc) Get(ctx context.Context, id int64) (storage.Category, error) {
 func (cs CoreSvc) Update(ctx context.Context, t storage.Category)  error {
 	return cs.store.Update(ctx, t)
 }
+
+func (cs CoreSvc) Delete(ctx context.Context, id int64) error {
+	return cs.store.Delete(ctx, id)
+}

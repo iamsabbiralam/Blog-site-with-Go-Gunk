@@ -163,7 +163,7 @@ func (h *Handler) updateCategories(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Printf("#####: %v", cat)
+	
 	_, err = h.tc.Update(r.Context(), &tcb.UpdateCategoryRequest{
 		Category: &tcb.Category{
 			ID:           Id,
@@ -174,6 +174,32 @@ func (h *Handler) updateCategories(rw http.ResponseWriter, r *http.Request) {
 	// fmt.Println(Category)
 	
 	if err != nil{
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	
+	http.Redirect(rw, r, "/category/list", http.StatusTemporaryRedirect)
+}
+
+func (h *Handler) deleteCategories(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	if id == "" {
+		http.Error(rw, "lol", http.StatusInternalServerError)
+		return
+	}
+
+	Id, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fmt.Printf("######: %v", id)
+	_, err = h.tc.Delete(r.Context(), &tcb.DeleteCategoryRequest{
+		ID: Id,
+	})
+	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}

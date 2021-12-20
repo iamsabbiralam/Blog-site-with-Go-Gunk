@@ -50,7 +50,7 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tcb.CategorySer
 	s.HandleFunc("/category/list", h.listCategories)
 	s.HandleFunc("/category/{id:[0-9]+}/edit", h.editCategories)
 	s.HandleFunc("/category/{id:[0-9]+}/update", h.updateCategories)
-	// s.HandleFunc("/category/{id:[0-9]+}/delete", h.deleteCategories)
+	s.HandleFunc("/category/{id:[0-9]+}/delete", h.deleteCategories)
 	// s.HandleFunc("/category/search", h.searchCategory)
 	// s.HandleFunc("/book/create", h.createBooks)
 	// s.HandleFunc("/book/store", h.storeBooks)
