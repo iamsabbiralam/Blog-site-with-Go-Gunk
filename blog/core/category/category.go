@@ -3,17 +3,14 @@ package category
 import (
 	"context"
 	"gunkBlog/blog/storage"
+	"gunkBlog/blog/storage/postgres"
 )
 
-type categoryStore interface {
-	Create(context.Context, storage.Category) (int64, error)
-}
-
 type CoreSvc struct {
-	store	categoryStore
+	store	*postgres.Storage
 }
 
-func NewCoreSvc(s categoryStore) *CoreSvc {
+func NewCoreSvc(s *postgres.Storage) *CoreSvc {
 	return &CoreSvc{
 		store: s,
 	}
@@ -21,4 +18,16 @@ func NewCoreSvc(s categoryStore) *CoreSvc {
 
 func (cs CoreSvc) Create(ctx context.Context, t storage.Category) (int64, error) {
 	return cs.store.Create(ctx, t)
+}
+
+func (cs CoreSvc) Show(ctx context.Context) ([]storage.Category, error) {
+	return cs.store.Show(ctx)
+}
+
+func (cs CoreSvc) Get(ctx context.Context, id int64) (storage.Category, error) {
+	return cs.store.Get(ctx, id)
+}
+
+func (cs CoreSvc) Update(ctx context.Context, t storage.Category)  error {
+	return cs.store.Update(ctx, t)
 }

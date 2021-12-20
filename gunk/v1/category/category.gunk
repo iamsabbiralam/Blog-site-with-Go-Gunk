@@ -17,7 +17,7 @@ type CreateCategoryResponse struct {
 type ShowCategoryRequest struct {}
 
 type ShowCategoryResponse struct {
-	Category Category `pb:"1"`
+	Category []Category `pb:"1"`
 }
 
 type GetCategoryRequest struct {

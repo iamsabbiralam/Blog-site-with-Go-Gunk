@@ -47,9 +47,9 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tcb.CategorySer
 	// s.Use(h.authMiddleware)
 	s.HandleFunc("/category/create", h.createCategories)
 	s.HandleFunc("/category/store", h.storeCategories)
-	// s.HandleFunc("/category/list", h.listCategories)
-	// s.HandleFunc("/category/{id:[0-9]+}/edit", h.editCategories)
-	// s.HandleFunc("/category/{id:[0-9]+}/update", h.updateCategories)
+	s.HandleFunc("/category/list", h.listCategories)
+	s.HandleFunc("/category/{id:[0-9]+}/edit", h.editCategories)
+	s.HandleFunc("/category/{id:[0-9]+}/update", h.updateCategories)
 	// s.HandleFunc("/category/{id:[0-9]+}/delete", h.deleteCategories)
 	// s.HandleFunc("/category/search", h.searchCategory)
 	// s.HandleFunc("/book/create", h.createBooks)
@@ -80,8 +80,8 @@ func (h *Handler) parseTemplate() {
 	h.templates = template.Must(template.ParseFiles(
 		"cms/assets/templates/category/create-category.html",
 		"cms/assets/templates/home.html",
-		// "templates/category/list-category.html",
-		// "templates/category/edit-category.html",
+		"cms/assets/templates/category/list-category.html",
+		"cms/assets/templates/category/edit-category.html",
 		// "templates/category/404.html",
 		// "templates/book/create-book.html",
 		// "templates/book/list-book.html",

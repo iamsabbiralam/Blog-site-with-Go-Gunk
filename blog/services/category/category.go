@@ -9,6 +9,9 @@ import (
 
 type categoryCoreStore interface {
 	Create(context.Context, storage.Category) (int64, error)
+	Show(context.Context) ([]storage.Category, error)
+	Get(context.Context, int64) (storage.Category, error)
+	Update(context.Context, storage.Category) error
 }
 
 type Svc struct {

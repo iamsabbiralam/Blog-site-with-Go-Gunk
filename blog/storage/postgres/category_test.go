@@ -34,7 +34,7 @@ func TestCreateCategory(t *testing.T) {
 				CategoryName: "This is category",
 				IsCompleted:  false,
 			},
-			wantErr: false,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -59,13 +59,13 @@ func TestGetCategory(t *testing.T) {
 	tests := []struct {
 		name    string
 		in		int64
-		want    *storage.Category
+		want    storage.Category
 		wantErr bool
 	}{
 		{
 			name: "GET_CATEGORY_SUCCESS",
 			in: 1,
-			want: &storage.Category{
+			want: storage.Category{
 				ID:           1,
 				CategoryName: "This is category",
 				IsCompleted:  false,
@@ -119,13 +119,10 @@ func TestUpdateCategory(t *testing.T) {
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := s.Update(context.TODO(), tt.in)
+			err := s.Update(context.TODO(), tt.in)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Storage.Update() error = %v, wantErr %v", err, tt.wantErr)
 				return
-			}
-			if !cmp.Equal(got, tt.want) {
-				t.Errorf("Diff = %v", cmp.Diff(got, tt.want))
 			}
 		})
 	}
