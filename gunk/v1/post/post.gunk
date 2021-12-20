@@ -1,0 +1,58 @@
+package post
+
+type Post struct {
+	ID			int64 `pb:"1"`
+	CategoryID	int64 `pb:"2"`
+	Title 		string `pb:"3"`
+	Description string `pb:"4"`
+	Image 		string `pb:"5"`
+}
+
+type CreatePostRequest struct {
+	Post Post `pb:"1"`
+}
+
+type CreatePostResponse struct {
+	ID int64 `pb:"1"`
+}
+
+type ShowPostRequest struct {}
+
+type ShowPostResponse struct {
+	Post []Post `pb:"1"`
+}
+
+type GetPostRequest struct {
+	ID int64 `pb:"1"`
+}
+
+type GetPostResponse struct {
+	Post Post `pb:"1"`
+}
+
+type UpdatePostRequest struct {
+	Post Post `pb:"1"`
+}
+
+type UpdatePostResponse struct{}
+
+type DeletePostRequest struct {
+	ID int64 `pb:"1"`
+}
+
+type DeletePostResponse struct{}
+
+type CompletePostRequest struct {
+	ID int64 `pb:"1"`
+}
+
+type CompletePostResponse struct{}
+
+type PostService interface {
+	Create(CreatePostRequest) CreatePostResponse
+	Show(ShowPostRequest) ShowPostResponse
+	Get(GetPostRequest) GetPostResponse
+	Update(UpdatePostRequest) UpdatePostResponse
+	Delete(DeletePostRequest) DeletePostResponse
+	Complete(CompletePostRequest) CompletePostResponse
+}
