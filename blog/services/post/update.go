@@ -15,7 +15,7 @@ func(s *Svc) Update(ctx context.Context, req *tpb.UpdatePostRequest) (*tpb.Updat
 		CategoryID:  req.Post.CategoryID,
 		Title:       req.Post.Title,
 		Description: req.Post.Description,
-		Image:       req.Post.Title,
+		Image:       req.Post.Image,
 	}
 	if err := s.postCore.UpdatePost(context.Background(), post); err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to update post")

@@ -36,18 +36,11 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tcb.CategorySer
 
 	r:= mux.NewRouter()
 	r.HandleFunc("/", h.home)
-	// r.HandleFunc("/logout", h.logout)
-	// r.HandleFunc("/resetpassword", h.forgotPassword)
 
 	l := r.NewRoute().Subrouter()
-	// l.HandleFunc("/registration", h.signUp).Methods("GET")
-	// l.HandleFunc("/registration", h.signUpCheck).Methods("POST")
-	// l.HandleFunc("/login", h.login).Methods("GET")
-	// l.HandleFunc("/login", h.loginCheck).Methods("POST")
 	l.Use(h.loginMiddleware)
 
 	s := r.NewRoute().Subrouter()
-	// s.Use(h.authMiddleware)
 	s.HandleFunc("/category/create", h.createCategories)
 	s.HandleFunc("/category/store", h.storeCategories)
 	s.HandleFunc("/category/list", h.listCategories)
@@ -59,14 +52,9 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tcb.CategorySer
 	s.HandleFunc("/post/list", h.listPost)
 	s.HandleFunc("/post/{id:[0-9]+}/edit", h.editPost)
 	s.PathPrefix("/cms/asset/").Handler(http.StripPrefix("/cms/asset/", http.FileServer(http.Dir("./"))))
-	// s.HandleFunc("/category/search", h.searchCategory)
-	// s.HandleFunc("/book/{id:[0-9]+}/update", h.updateBook)
-	// s.HandleFunc("/book/{id:[0-9]+}/delete", h.deleteBook)
-	// s.HandleFunc("/book/search", h.searchBook)
-	// s.HandleFunc("/bookings/{id:[0-9]+}/create", h.createBookings)
-	// s.HandleFunc("/bookings/store", h.storeBookings)
-	// s.HandleFunc("/mybookings", h.myBookings)
-	// s.HandleFunc("/book/{id:[0-9]+}/bookdetails", h.bookDetails)
+	s.HandleFunc("/post/{id:[0-9]+}/update", h.updatePost)
+	s.HandleFunc("/post/{id:[0-9]+}/delete", h.deletePost)
+	s.HandleFunc("/post/{id:[0-9]+}/details", h.postDetails)
 	
 
 	r.NotFoundHandler = http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
@@ -88,13 +76,7 @@ func (h *Handler) parseTemplate() {
 		"cms/assets/templates/post/create-post.html",
 		"cms/assets/templates/post/list-post.html",
 		"cms/assets/templates/post/edit-post.html",
-		// "templates/category/404.html",
-		// "templates/bookings/create-bookings.html",
-		// "templates/bookings/my-bookings.html",
-		// "templates/book/single-details.html",
-		// "templates/signup.html",
-		// "templates/login.html",
-		// "templates/reset-password.html",
+		"cms/assets/templates/post/single-post.html",
 		))
 }
 

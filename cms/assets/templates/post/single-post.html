@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <title>Single Post</title>
+</head>
+<body class="bg-light">
+    <h3 align="center">Book Details</h3>
+    <hr>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"><a href="/" class="btn btn-secondary">Home</a></th>
+                    <th scope="col"><a href="/post/list" class="btn btn-primary">Book List</a></th>
+                    <th scope="col"><a href="/category/list" class="btn btn-primary">Category List</a></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="container py-4">
+       <!-- Product Card //-->
+       <div class="card card-body mb-5">
+          <div class="row row-cols-1 row-cols-lg-2 g-2">
+             <!-- Section: Product Image #1 //-->
+             <div class="col d-none d-lg-block">
+                <img class="w-100 rounded"
+                     src="/cms/asset/{{.Post.Image}}" alt="Image" width="100px"/>
+             </div>
+             <!-- Section: Product Body //-->
+             <div class="col">
+                <div class="h-100 d-flex flex-column">
+                   <!-- Section: Product Infomation //-->
+                   <div class="flex-grow-1">
+                      <div class="h-100 d-flex flex-column">
+                         <div class="flex-grow-1">
+                            <div class="row row-cols-auto mb-3 g-1 text-uppercase">
+                               <div class="col">
+                                  <span class="badge bg-primary text-white rounded-pill">Post</span>
+                               </div>
+                            </div>
+                            <h5 class="text-muted text-uppercase mb-1">{{.Post.CategoryID}}</h5>
+                            <h3>{{.Post.Title}}</h3>
+                            <p>{{.Post.Description}}</p>
+                         </div>
+                      </div>
+                   </div>
+                   <!-- Section: Product Quantity //-->
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</html>
