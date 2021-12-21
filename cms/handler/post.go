@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 
 	validation "github.com/go-ozzo/ozzo-validation"
+	"github.com/gorilla/mux"
 
 	tcb "gunkBlog/gunk/v1/category"
 	tpb "gunkBlog/gunk/v1/post"
@@ -153,6 +155,47 @@ func(h *Handler) listPost(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (h *Handler) editPost(rw http.ResponseWriter, r *http.Request) {
+	cat, err := h.tc.Show(r.Context(), &tcb.ShowCategoryRequest{})
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	var categories []Category
+	for _, val := range cat.Category {
+		categories = append(categories, Category{
+			ID:           val.ID,
+			CategoryName: val.CategoryName,
+		})
+	}
+	vars := mux.Vars(r)
+	id := vars["id"]
+	if id == "" {
+		http.Error(rw, "invalid URL", http.StatusInternalServerError)
+		return
+	}
+	Id, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	res, err := h.tp.Get(r.Context(), &tpb.GetPostRequest{
+		ID: Id,
+	})
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fmt.Println(res)
+	post := Post{
+		CategoryID:   res.Post.CategoryID,
+		Title:        res.Post.Title,
+		Description:  res.Post.Description,
+		Image:        res.Post.Image,
+	}
+	h.loadEditPostForm(rw, post, categories, map[string]string{})
+}
+
 func (h *Handler) loadCreatePostForm(rw http.ResponseWriter, post Post, cat []Category, errs map[string]string) {
 	form := PostForm{
 		Post:     post,
@@ -160,6 +203,18 @@ func (h *Handler) loadCreatePostForm(rw http.ResponseWriter, post Post, cat []Ca
 		Errors:   errs,
 	}
 	if err:= h.templates.ExecuteTemplate(rw, "create-post.html", form); err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func (h *Handler) loadEditPostForm(rw http.ResponseWriter, post Post, cat []Category, errs map[string]string) {
+	form := PostForm{
+		Category : cat,
+		Post : post,
+		Errors : errs,
+	}
+	if err:= h.templates.ExecuteTemplate(rw, "edit-post.html", form); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}

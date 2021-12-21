@@ -57,9 +57,9 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tcb.CategorySer
 	s.HandleFunc("/post/create", h.createPost)
 	s.HandleFunc("/post/store", h.storePost)
 	s.HandleFunc("/post/list", h.listPost)
+	s.HandleFunc("/post/{id:[0-9]+}/edit", h.editPost)
 	s.PathPrefix("/cms/asset/").Handler(http.StripPrefix("/cms/asset/", http.FileServer(http.Dir("./"))))
 	// s.HandleFunc("/category/search", h.searchCategory)
-	// s.HandleFunc("/book/{id:[0-9]+}/edit", h.editBook)
 	// s.HandleFunc("/book/{id:[0-9]+}/update", h.updateBook)
 	// s.HandleFunc("/book/{id:[0-9]+}/delete", h.deleteBook)
 	// s.HandleFunc("/book/search", h.searchBook)
@@ -87,8 +87,8 @@ func (h *Handler) parseTemplate() {
 		"cms/assets/templates/category/edit-category.html",
 		"cms/assets/templates/post/create-post.html",
 		"cms/assets/templates/post/list-post.html",
+		"cms/assets/templates/post/edit-post.html",
 		// "templates/category/404.html",
-		// "templates/book/edit-book.html",
 		// "templates/bookings/create-bookings.html",
 		// "templates/bookings/my-bookings.html",
 		// "templates/book/single-details.html",
