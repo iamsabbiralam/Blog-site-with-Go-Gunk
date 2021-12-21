@@ -56,7 +56,8 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tcb.CategorySer
 	s.HandleFunc("/category/{id:[0-9]+}/delete", h.deleteCategories)
 	s.HandleFunc("/post/create", h.createPost)
 	s.HandleFunc("/post/store", h.storePost)
-	// s.HandleFunc("/post/list", h.listBooks)
+	s.HandleFunc("/post/list", h.listPost)
+	s.PathPrefix("/cms/asset/").Handler(http.StripPrefix("/cms/asset/", http.FileServer(http.Dir("./"))))
 	// s.HandleFunc("/category/search", h.searchCategory)
 	// s.HandleFunc("/book/{id:[0-9]+}/edit", h.editBook)
 	// s.HandleFunc("/book/{id:[0-9]+}/update", h.updateBook)
@@ -66,7 +67,6 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tcb.CategorySer
 	// s.HandleFunc("/bookings/store", h.storeBookings)
 	// s.HandleFunc("/mybookings", h.myBookings)
 	// s.HandleFunc("/book/{id:[0-9]+}/bookdetails", h.bookDetails)
-	// s.PathPrefix("/asset/").Handler(http.StripPrefix("/asset/", http.FileServer(http.Dir("./"))))
 	
 
 	r.NotFoundHandler = http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
@@ -86,8 +86,8 @@ func (h *Handler) parseTemplate() {
 		"cms/assets/templates/category/list-category.html",
 		"cms/assets/templates/category/edit-category.html",
 		"cms/assets/templates/post/create-post.html",
+		"cms/assets/templates/post/list-post.html",
 		// "templates/category/404.html",
-		// "templates/book/list-book.html",
 		// "templates/book/edit-book.html",
 		// "templates/bookings/create-bookings.html",
 		// "templates/bookings/my-bookings.html",
