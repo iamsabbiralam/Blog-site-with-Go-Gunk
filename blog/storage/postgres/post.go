@@ -19,6 +19,14 @@ func (s *Storage) CreatePost(ctx context.Context, t storage.Post) (int64, error)
 	return id, nil
 }
 
+func(s *Storage) ShowPost(ctx context.Context) ([]storage.Post, error) {
+	var post []storage.Post
+	if err := s.db.Select(&post, "SELECT posts.* , categories.category_name FROM posts LEFT JOIN categories ON categories.id = posts.cat_id"); err != nil {
+		return nil, err
+	}
+	return post, nil
+}
+
 func(s *Storage) GetPost(ctx context.Context, id int64) (storage.Post, error) {
 	var p storage.Post
 	if err := s.db.Get(&p, "SELECT * FROM posts WHERE id = $1", id); err != nil {
@@ -34,8 +42,16 @@ func(s *Storage) UpdatePost(ctx context.Context, t storage.Post) error {
 	if err != nil {
 		return err
 	}
-	var p storage.Category
+	var p storage.Post
 	if err := stmt.Get(&p, t); err != nil {
+		return err
+	}
+	return nil
+}
+
+func(s *Storage) DeletePost(ctx context.Context, id int64) error {
+	var p storage.Post
+	if err := s.db.Get(&p, "DELETE FROM posts WHERE id = $1 RETURNING *", id); err != nil {
 		return err
 	}
 	return nil

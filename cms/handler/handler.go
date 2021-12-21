@@ -11,6 +11,7 @@ import (
 	"github.com/gorilla/sessions"
 
 	tcb "gunkBlog/gunk/v1/category"
+	tpb "gunkBlog/gunk/v1/post"
 )
 
 const sessionName = "cms-session"
@@ -20,13 +21,15 @@ type Handler struct {
 	decoder *schema.Decoder
 	sess *sessions.CookieStore
 	tc	tcb.CategoryServiceClient
+	tp	tpb.PostServiceClient
 }
 
-func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tcb.CategoryServiceClient) *mux.Router {
+func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tcb.CategoryServiceClient, tp tpb.PostServiceClient) *mux.Router {
 	h:= &Handler{
 		decoder: decoder,
 		sess: sess,
 		tc: tc,
+		tp: tp,
 	}
 
 	h.parseTemplate()
@@ -51,10 +54,10 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tcb.CategorySer
 	s.HandleFunc("/category/{id:[0-9]+}/edit", h.editCategories)
 	s.HandleFunc("/category/{id:[0-9]+}/update", h.updateCategories)
 	s.HandleFunc("/category/{id:[0-9]+}/delete", h.deleteCategories)
+	s.HandleFunc("/post/create", h.createPost)
+	s.HandleFunc("/post/store", h.storePost)
+	// s.HandleFunc("/post/list", h.listBooks)
 	// s.HandleFunc("/category/search", h.searchCategory)
-	// s.HandleFunc("/book/create", h.createBooks)
-	// s.HandleFunc("/book/store", h.storeBooks)
-	// s.HandleFunc("/book/list", h.listBooks)
 	// s.HandleFunc("/book/{id:[0-9]+}/edit", h.editBook)
 	// s.HandleFunc("/book/{id:[0-9]+}/update", h.updateBook)
 	// s.HandleFunc("/book/{id:[0-9]+}/delete", h.deleteBook)
@@ -82,8 +85,8 @@ func (h *Handler) parseTemplate() {
 		"cms/assets/templates/home.html",
 		"cms/assets/templates/category/list-category.html",
 		"cms/assets/templates/category/edit-category.html",
+		"cms/assets/templates/post/create-post.html",
 		// "templates/category/404.html",
-		// "templates/book/create-book.html",
 		// "templates/book/list-book.html",
 		// "templates/book/edit-book.html",
 		// "templates/bookings/create-bookings.html",

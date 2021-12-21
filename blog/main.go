@@ -8,9 +8,12 @@ import (
 	"strings"
 
 	tc "gunkBlog/blog/core/category"
+	tp "gunkBlog/blog/core/post"
 	"gunkBlog/blog/services/category"
+	"gunkBlog/blog/services/post"
 	"gunkBlog/blog/storage/postgres"
 	tcb "gunkBlog/gunk/v1/category"
+	tpb "gunkBlog/gunk/v1/post"
 
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
@@ -34,11 +37,22 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to connect database: %s", err)
 	}
+
+	postStore, err := newDBFromConfig(config)
+	if err != nil {
+		log.Fatalf("failed to connect database: %s", err)
+	}
+
 	cs := tc.NewCoreSvc(store)
 	s := category.NewCategoryServer(cs)
 	
+	ps := tp.NewCoreSvc(postStore)
+	sp := post.NewPostServer(ps)
+	
 
 	tcb.RegisterCategoryServiceServer(grpcServer, s)
+	tpb.RegisterPostServiceServer(grpcServer, sp)
+
 	host, port := config.GetString("server.host"), config.GetString("server.port")
 	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%s", host, port))
 	if err != nil {

@@ -1,11 +1,12 @@
 package post
 
 type Post struct {
-	ID			int64 `pb:"1"`
-	CategoryID	int64 `pb:"2"`
-	Title 		string `pb:"3"`
-	Description string `pb:"4"`
-	Image 		string `pb:"5"`
+	ID           int64  `pb:"1"`
+	CategoryID   int64  `pb:"2"`
+	Title        string `pb:"3"`
+	Description  string `pb:"4"`
+	Image        string `pb:"5"`
+	CategoryName string `pb:"6"`
 }
 
 type CreatePostRequest struct {
@@ -16,7 +17,7 @@ type CreatePostResponse struct {
 	ID int64 `pb:"1"`
 }
 
-type ShowPostRequest struct {}
+type ShowPostRequest struct{}
 
 type ShowPostResponse struct {
 	Post []Post `pb:"1"`

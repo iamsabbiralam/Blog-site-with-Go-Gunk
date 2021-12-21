@@ -1,18 +1,12 @@
 package handler
 
 import (
-	// "fmt"
-	// "math"
 	"fmt"
 	"net/http"
 	"strconv"
 
-	// "strconv"
-
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/gorilla/mux"
-
-	// "github.com/gorilla/mux"
 
 	tcb "gunkBlog/gunk/v1/category"
 )
@@ -22,22 +16,6 @@ type Category struct {
 	CategoryName string
 	IsCompleted bool
 	Errors map[string]string
-}
-
-type ListCategory struct {
-	Categories []Category
-	Offset	int
-	Limit	int
-	Total	int
-	Paginate	[]CategoryPagination
-	CurrentPage	int
-	NextPageURL string
-	PreviousPageURL	string
-}
-
-type CategoryPagination struct {
-	URL string
-	PageNumber	int
 }
 
 func (c *Category) Validate() error {

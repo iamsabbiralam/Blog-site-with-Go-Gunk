@@ -12,4 +12,5 @@ type Post struct {
 	Title			string`db:"title"`
 	Description		string`db:"description"`
 	Image			string`db:"image"`
+	CategoryName	string`db:"category_name"`
 }
