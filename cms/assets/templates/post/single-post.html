@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                     <th scope="col"><a href="/" class="btn btn-secondary">Home</a></th>
-                    <th scope="col"><a href="/post/list" class="btn btn-primary">Book List</a></th>
+                    <th scope="col"><a href="/post/list" class="btn btn-primary">Post List</a></th>
                     <th scope="col"><a href="/category/list" class="btn btn-primary">Category List</a></th>
                 </tr>
             </thead>
@@ -42,7 +42,7 @@
                                   <span class="badge bg-primary text-white rounded-pill">Post</span>
                                </div>
                             </div>
-                            <h5 class="text-muted text-uppercase mb-1">{{.Post.CategoryID}}</h5>
+                            <h5 class="text-muted text-uppercase mb-1">{{.Post.CategoryName}}</h5>
                             <h3>{{.Post.Title}}</h3>
                             <p>{{.Post.Description}}</p>
                          </div>

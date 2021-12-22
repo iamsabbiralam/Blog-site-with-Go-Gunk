@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -173,7 +172,6 @@ func (h *Handler) deleteCategories(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Printf("######: %v", id)
 	_, err = h.tc.Delete(r.Context(), &tcb.DeleteCategoryRequest{
 		ID: Id,
 	})
