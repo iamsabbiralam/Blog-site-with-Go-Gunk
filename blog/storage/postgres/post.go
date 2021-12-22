@@ -29,7 +29,7 @@ func(s *Storage) ShowPost(ctx context.Context) ([]storage.Post, error) {
 
 func(s *Storage) GetPost(ctx context.Context, id int64) (storage.Post, error) {
 	var p storage.Post
-	if err := s.db.Get(&p, "SELECT * FROM posts WHERE id = $1", id); err != nil {
+	if err := s.db.Get(&p, "SELECT posts.* , categories.category_name FROM posts LEFT JOIN categories ON categories.id = posts.cat_id WHERE posts.id = $1", id); err != nil {
 		return p, err
 	}
 	return p, nil

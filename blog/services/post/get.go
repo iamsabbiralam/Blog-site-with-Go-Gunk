@@ -17,6 +17,7 @@ func(s *Svc) Get(ctx context.Context, req *tpb.GetPostRequest) (*tpb.GetPostResp
 			Title:       post.Title,
 			Description: post.Description,
 			Image:       post.Image,
+			CategoryName: post.CategoryName,
 		},
 	}, nil
 }

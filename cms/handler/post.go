@@ -354,7 +354,6 @@ func (h *Handler) postDetails(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Println(res)
 	if err := h.templates.ExecuteTemplate(rw, "single-post.html", res); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
