@@ -3,7 +3,6 @@ package postgres
 import (
 	"context"
 	"gunkBlog/blog/storage"
-	"log"
 	"sort"
 	"testing"
 
@@ -101,7 +100,6 @@ func TestShowPost(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			gotList, err := s.ShowPost(context.Background())
-			log.Printf("=========: %#v", gotList)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Storage.Get() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -143,6 +141,7 @@ func TestGetPost(t *testing.T) {
 				Title:       "This is title",
 				Description: "This is description",
 				Image:       "1.jpg",
+				CategoryName: "This is category update",
 			},
 		},
 		{
@@ -202,9 +201,6 @@ func TestUpdatePost(t *testing.T) {
 				t.Errorf("Storage.Updatepost() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			// if got != tt.want {
-			// 	t.Errorf("Storage.Getpost() = %v, want %v", got, tt.want)
-			// }
 		})
 	}
 }
@@ -236,9 +232,6 @@ func TestDeletePost(t *testing.T) {
 				t.Errorf("Storage.Getpost() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			// if got != tt.want {
-			// 	t.Errorf("Storage.Getpost() = %v, want %v", got, tt.want)
-			// }
 		})
 	}
 }
